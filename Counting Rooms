@@ -1,0 +1,114 @@
+///https://cses.fi/problemset/task/1192
+
+///   ***   ---   ||         ALLAHU AKBAR        |||   ---   ***   ///
+ 
+ 
+ 
+#include<bits/stdc++.h>
+using namespace std;
+ 
+ 
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+typedef pair<int,int> pii;
+typedef pair<double, double> pdd;
+typedef pair<ll, ll> pll;
+typedef vector<pii> vii;
+typedef vector<pll> vll;
+typedef double dl;
+ 
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+#define sz(x) (int)x.size()
+#define nl cout<<endl
+ 
+const double PI = acos(-1);
+const double eps = 1e-9;
+const int inf = 2000000000;
+const ll infLL = 9000000000000000000;
+#define MOD 1000000007
+ 
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+ 
+#define bismillah ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+#define file() freopen("input.txt","r",stdin);freopen("output.txt","w",stdout);
+ 
+ 
+ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
+ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ 
+ 
+int dx[] = { 0, 0, +1, -1, -1,  +1, -1, +1 };
+int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
+ int n,m,cnt;
+bool isValid(int x,int y,int n,int m,vvi& vis,vector<string>& s)
+ 
+{
+    return (x>=0 && x<n && y >=0 && y<m && vis[x][y] == 0 && s[x][y] == '.');
+}
+ 
+void bfs(vector<string>& s, vvi& vis,int i,int j)
+{
+    queue<pii>q;
+    vis[i][j] = 1;
+    q.push({i,j});
+    while(!q.empty())
+    {
+        int x1 = q.front().F;
+        int y1 = q.front().S;
+        q.pop();    ///Always forget this line
+        for(int k=0;k<4;k++)
+        {
+            int x = x1 + dx[k];
+            int y= y1 + dy[k];
+ 
+            if(isValid(x,y,n,m,vis,s) )
+            {
+                vis[x][y] = 1;
+                q.push({x,y});
+            }
+        }
+    }
+ 
+}
+ 
+ 
+int main()
+{
+    bismillah;
+    cnt =0;
+ 
+    cin>>n>>m;
+    vector<string>s(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>s[i];
+    }
+    vvi vis(n,vi(m,0));
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(s[i][j] == '.' && vis[i][j] == 0)
+            {
+                cnt++;
+                bfs(s,vis,i,j);
+            }
+        }
+    }
+ 
+    cout<<cnt<<endl;
+ 
+ 
+    return 0;
+}
+ 
