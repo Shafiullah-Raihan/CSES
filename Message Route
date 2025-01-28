@@ -1,0 +1,91 @@
+///https://cses.fi/problemset/task/1667
+
+///   ***   ---   ||         ALLAHU AKBAR        |||   ---   ***   ///
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<vi> vvi;
+typedef vector<vl> vvl;
+
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define endl '\n'
+#define bismillah ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+vi shortestPath(vvl& adj, int n) {
+    vi par(n, -1);
+    vector<bool> vis(n, false);
+    queue<int> q;
+
+    q.push(0);
+    vis[0] = true;
+    par[0] = 0;
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+
+        for (auto u : adj[node]) {
+            if (!vis[u]) {
+                vis[u] = true;
+                par[u] = node;
+                q.push(u);
+
+                if (u == n - 1) {
+                    return par;
+                }
+            }
+        }
+    }
+
+    return par;
+}
+
+void reconstructPath(vi& par, int n) {
+    vector<int> path;
+    int cur = n - 1;
+
+    while (cur != par[cur]) {
+        path.PB(cur + 1);
+        cur = par[cur];
+    }
+    path.PB(1);
+
+    reverse(path.begin(), path.end());
+    cout << path.size() << endl;
+    for (auto node : path) {
+        cout << node << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    bismillah;
+    int n, m;
+    cin >> n >> m;
+    vvl adj(n);
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        --u, --v;
+        adj[u].PB(v);
+        adj[v].PB(u);
+    }
+
+    vi par = shortestPath(adj, n);
+
+    if (par[n - 1] == -1) {
+        cout << "IMPOSSIBLE" << endl;
+    } else {
+        reconstructPath(par, n);
+    }
+
+    return 0;
+}
